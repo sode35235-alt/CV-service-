@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استبيان السيرة الذاتية | CV Questionnaire</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --border: #E2DFD8;
+    --border-focus: #1A1A1A;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B6860;
+    --text-hint: #A09E99;
+    --accent: #1A1A1A;
+    --accent-light: #F0EDE8;
+    --success: #1A6B4A;
+    --success-bg: #EAF3EE;
+    --error: #B03A2E;
+    --error-bg: #FBEAE8;
+    --tag-bg: #EDEAE4;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .page-header {
+    text-align: center;
+    padding: 2.5rem 0 2rem;
+  }
+
+  .brand-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Service selector */
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .service-card {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    background: var(--surface);
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+
+  .service-card:hover { border-color: #B0ADA8; }
+
+  .service-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .service-card .icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .service-card .label-ar {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+  }
+
+  .service-card .label-en {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Form sections */
+  .form-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--tag-bg);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .section-title span {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  /* Fields */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field {
+    margin-bottom: 1rem;
+  }
+
+  .field:last-child { margin-bottom: 0; }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+  }
+
+  .field label .en {
+    font-weight: 400;
+    color: var(--text-hint);
+    font-size: 11px;
+    display: block;
+    margin-top: 1px;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: border-color 0.15s;
+    outline: none;
+    direction: rtl;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--text-hint);
+    font-size: 13px;
+  }
+
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--border-focus);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+  }
+
+  .field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6860' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    padding-left: 32px;
+    cursor: pointer;
+  }
+
+  .hint {
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+
+  .radio-option input { display: none; }
+
+  .radio-option.checked {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    font-weight: 500;
+  }
+
+  /* Submit */
+  .submit-wrap {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .submit-btn {
+    background: var(--accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 2.5rem;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s;
+  }
+
+  .submit-btn:hover { opacity: 0.85; }
+
+  .submit-note {
+    font-size: 12px;
+    color: var(--text-hint);
+    margin-top: 10px;
+  }
+
+  /* Success state */
+  .success-card {
+    background: var(--success-bg);
+    border: 1px solid #B8DFC9;
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    display: none;
+  }
+
+  .success-card .check {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .success-card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--success);
+    margin-bottom: 8px;
+  }
+
+  .success-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding-top: 2rem;
+    font-size: 12px;
+    color: var(--text-hint);
+  }
+
+  @media (max-width: 520px) {
+    .field-row { grid-template-columns: 1fr; }
+    .service-grid { grid-template-columns: 1fr; }
+    .page-header h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="page-header">
+    <div class="brand-tag">خدمات مهنية · Professional Services</div>
+    <h1>استبيان السيرة الذاتية<br>ولينكدإن</h1>
+    <p>أكمل بياناتك وسنتواصل معك خلال 24 ساعة<br>Fill in your details and we'll reach out within 24 hours</p>
+  </header>
+
+  <!-- Service selector -->
+  <div>
+    <p style="font-size:13px; font-weight:600; color:var(--text-secondary); margin-bottom:10px;">الخدمة المطلوبة · Service needed</p>
+    <div class="service-grid">
+      <div class="service-card selected" onclick="selectService(this, 'cv')">
+        <div class="icon">📄</div>
+        <span class="label-ar">سيرة ذاتية</span>
+        <span class="label-en">CV / Resume</span>
+      </div>
+      <div class="service-card selected" onclick="selectService(this, 'li')">
+        <div class="icon">💼</div>
+        <span class="label-ar">لينكدإن</span>
+        <span class="label-en">LinkedIn Profile</span>
+      </div>
+      <div class="service-card" onclick="selectService(this, 'both')">
+        <div class="icon">⭐</div>
+        <span class="label-ar">الاثنين</span>
+        <span class="label-en">Both (Best value)</span>
+      </div>
+    </div>
+  </div>
+
+  <form id="mainForm" onsubmit="handleSubmit(event)" novalidate>
+
+    <!-- Section 1: Personal -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-num">١</div>
+        <div class="section-title">المعلومات الشخصية <span>Personal Info</span></div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>الاسم الكامل <span class="en">Full name</span></label>
+          <input type="text" name="name" placeholder="محمد العمري" required>
+        </div>
+        <div class="field">
+          <label>رقم الجوال <span class="en">Phone number</span></label>
+          <input type="tel" name="phone" placeholder="+966 5x xxx xxxx" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>الإيميل <span class="en">Email address</span></label>
+          <input type="email" name="email" placeholder="name@email.com" required>
+        </div>
+        <div class="field">
+          <label>المدينة <span class="en">City</span></label>
+          <input type="text" name="city" placeholder="الرياض · Riyadh">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Career -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-num">٢</div>
+        <div class="section-title">المسار المهني <span>Career</span></div>
+      </div>
+      <div class="field">
+        <label>المسمى الوظيفي الحالي أو الأخير <span class="en">Current or most recent job title</span></label>
+        <input type="text" name="current_title" placeholder="مثال: محاسب · Accountant">
+      </div>
+      <div class="field">
+        <label>الوظيفة التي تستهدفها <span class="en">Target role you're applying for</span></label>
+        <input type="text" name="target_title" placeholder="مثال: مدير مالي · Finance Manager" required>
+      </div>
+      <div class="field">
+        <label>سنوات الخبرة <span class="en">Years of experience</span></label>
+        <select name="experience" required>
+          <option value="">اختر · Select</option>
+          <option>طالب / خريج حديث · Fresh Graduate</option>
+          <option>أقل من سنة · Less than 1 year</option>
+          <option>١–٣ سنوات · 1–3 years</option>
+          <option>٣–٧ سنوات · 3–7 years</option>
+          <option>أكثر من ٧ سنوات · 7+ years</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Section 3: Experience -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-num">٣</div>
+        <div class="section-title">الخبرات والمهارات <span>Experience & Skills</span></div>
+      </div>
+      <div class="field">
+        <label>الخبرات الوظيفية <span class="en">Work experience — company, title, dates, key responsibilities</span></label>
+        <textarea name="experience_detail" placeholder="مثال:&#10;شركة أرامكو | محاسب | 2020–2023&#10;- إعداد التقارير المالية الشهرية&#10;- مراجعة الميزانيات السنوية&#10;&#10;Aramco | Accountant | 2020–2023&#10;- Monthly financial reports&#10;- Annual budget review" style="min-height:120px;" required></textarea>
+      </div>
+      <div class="field">
+        <label>المهارات التقنية والشخصية <span class="en">Technical & soft skills</span></label>
+        <textarea name="skills" placeholder="مثال: Excel، Power BI، إدارة الفرق، التفاوض&#10;Excel, Power BI, Team Management, Negotiation" style="min-height:70px;"></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>اللغات <span class="en">Languages & proficiency</span></label>
+          <input type="text" name="languages" placeholder="العربية (أصلية)، الإنجليزية (متقدم)">
+        </div>
+        <div class="field">
+          <label>الشهادات والدورات <span class="en">Certifications / courses</span></label>
+          <input type="text" name="certs" placeholder="PMP، CPA، Google Analytics...">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Education -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-num">٤</div>
+        <div class="section-title">التعليم <span>Education</span></div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>الشهادة <span class="en">Degree</span></label>
+          <input type="text" name="degree" placeholder="بكالوريوس محاسبة · B.Sc Accounting">
+        </div>
+        <div class="field">
+          <label>الجامعة وسنة التخرج <span class="en">University & graduation year</span></label>
+          <input type="text" name="university" placeholder="جامعة الملك سعود · 2019">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Extras -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-num">٥</div>
+        <div class="section-title">إضافات مهمة <span>Key Extras</span></div>
+      </div>
+      <div class="field">
+        <label>إنجازات بأرقام تفخر بها <span class="en">Achievements with numbers — this makes your CV stand out</span></label>
+        <textarea name="achievements" placeholder="مثال:&#10;- زدت المبيعات ٤٠٪ خلال ٦ أشهر&#10;- أشرفت على فريق من ١٢ شخصاً&#10;- خفضت التكاليف التشغيلية بمقدار ١٥٪&#10;&#10;Increased sales 40% in 6 months | Led a team of 12 | Reduced costs by 15%" style="min-height:80px;"></textarea>
+        <p class="hint">هذا السؤال الأهم — الأرقام تضاعف قوة السيرة الذاتية · Numbers make CVs significantly stronger</p>
+      </div>
+      <div class="field">
+        <label>هل عندك سيرة ذاتية حالية؟ <span class="en">Do you have an existing CV?</span></label>
+        <div class="radio-group" id="cvRadioGroup">
+          <label class="radio-option" onclick="selectRadio(this, 'cvRadioGroup')">
+            <input type="radio" name="has_cv" value="no" checked> لا · No
+          </label>
+          <label class="radio-option" onclick="selectRadio(this, 'cvRadioGroup')">
+            <input type="radio" name="has_cv" value="yes"> نعم، سأرسله · Yes, I'll send it
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label>ملاحظات إضافية <span class="en">Anything else we should know?</span></label>
+        <textarea name="notes" placeholder="أي تفاصيل أخرى مهمة · Any other relevant details..." style="min-height:60px;"></textarea>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn">إرسال الاستبيان · Submit</button>
+      <p class="submit-note">سيتم التواصل معك خلال ٢٤ ساعة · We'll contact you within 24 hours</p>
+    </div>
+
+  </form>
+
+  <!-- Success message -->
+  <div class="success-card" id="successCard">
+    <div class="check">✅</div>
+    <h2>تم الاستلام! · Received!</h2>
+    <p>شكراً على تعبئة الاستبيان.<br>سيتم التواصل معك خلال ٢٤ ساعة على الإيميل أو الجوال.<br><br>
+    Thank you for filling out the form.<br>We'll reach out within 24 hours.</p>
+  </div>
+
+  <footer class="page-footer">
+    خدمات السيرة الذاتية ولينكدإن · CV & LinkedIn Services
+  </footer>
+
+</div>
+
+<script>
+  function selectService(el, val) {
+    el.classList.toggle('selected');
+  }
+
+  function selectRadio(label, groupId) {
+    document.querySelectorAll('#' + groupId + ' .radio-option').forEach(l => l.classList.remove('checked'));
+    label.classList.add('checked');
+  }
+
+  document.querySelectorAll('.radio-option').forEach(label => {
+    const input = label.querySelector('input');
+    if (input && input.checked) label.classList.add('checked');
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('mainForm');
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+
+    required.forEach(field => {
+      if (!field.value.trim()) {
+        field.style.borderColor = '#B03A2E';
+        valid = false;
+        field.addEventListener('input', () => field.style.borderColor = '', { once: true });
+      }
+    });
+
+    if (!valid) {
+      const first = form.querySelector('[required]:placeholder-shown, [required]:invalid');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    form.style.display = 'none';
+    document.getElementById('successCard').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
